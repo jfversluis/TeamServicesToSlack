@@ -108,7 +108,7 @@ namespace TeamServicesToSlack
 								},
 								Preview = new Link
 								{
-								Url = buildSucceeded ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuOQK9D8SET0D7542ENdA52M-M0hhTFLukcJ_rUQtHEMcqZzBt"
+								Url = buildSucceeded ? "https://hips.hearstapps.com/cosmouk.cdnds.net/15/31/1438173668-cute-success-kid.jpg"
 									: "https://vignette.wikia.nocookie.net/cardfight/images/2/2c/Sad_panda.jpg/revision/latest?cb=20140720193511"
 								},
 								Context = new Context
