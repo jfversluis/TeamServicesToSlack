@@ -2,7 +2,7 @@
 
 namespace TeamServicesToSlack.Models
 {
-    public class SlackMessageModel
+    public class StrideMessageModel
     {
         public string username { get; set; }
         public string icon_emoji { get; set; }

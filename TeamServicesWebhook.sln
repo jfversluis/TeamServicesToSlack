@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27309.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamServicesToSlack", "TeamServicesToSlack\TeamServicesToSlack.csproj", "{13C743D3-A8D9-41BB-9DD7-01D4278A5D93}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamServicesToStride", "TeamServicesToSlack\TeamServicesToStride.csproj", "{13C743D3-A8D9-41BB-9DD7-01D4278A5D93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
