@@ -115,7 +115,7 @@ namespace TeamServicesToSlack
 								{
 									Icon = new Icon
 									{
-										Url = "https://a3bf67a2345da5d6ee8b-6d37b1ee447a16ff81e1420be19ec8c3.ssl.cf5.rackcdn.com/vsts/vsts.png",
+										Url = "https://www.delta-n.nl/actueel/blogs/development-blog/PublishingImages/VSTSlogobijTips.png",
 										Label = "VSTS"
 									},
 									Text = request.Message.Text
