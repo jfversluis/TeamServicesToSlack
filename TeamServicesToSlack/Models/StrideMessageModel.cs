@@ -25,7 +25,7 @@ namespace TeamServicesToSlack.Models
 
 	public class Attrs
 	{
-		[JsonProperty("actions")]
+		[JsonProperty("actions", NullValueHandling = NullValueHandling.Ignore)]
 		public Action[] Actions { get; set; }
 
 		[JsonProperty("text")]
