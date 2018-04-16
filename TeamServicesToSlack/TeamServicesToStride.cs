@@ -82,10 +82,10 @@ namespace TeamServicesToSlack
 										Title = "Show VSTS"
 									}
 								},
-								Text = "Preview text",
+								Text = request.DetailedMessage.Text,
 								Link = new Models.Link
 								{
-									Url = "https://dotcontrol.visualstudio.com"
+									Url = request.Resource.Url
 								},
 								Collapsible = true,
 								Title = new Title
@@ -102,21 +102,21 @@ namespace TeamServicesToSlack
 								},
 								Description = new Description
 								{
-									Text = "Bla"
+									Text = request.DetailedMessage.Text
 								},
 								Preview = new Models.Link
 								{
 									Url = "https://vignette.wikia.nocookie.net/cardfight/images/2/2c/Sad_panda.jpg/revision/latest?cb=20140720193511"
 								},
-							Context = new Context
-							{
-								Icon = new Icon
+								Context = new Context
 								{
-									Url = "https://www.delta-n.nl/actueel/blogs/development-blog/PublishingImages/VSTSlogobijTips.png",
-									Label = "VSTS"
-								},
-								Text = "Build failed"
-							}
+									Icon = new Icon
+									{
+										Url = "https://www.delta-n.nl/actueel/blogs/development-blog/PublishingImages/VSTSlogobijTips.png",
+										Label = "VSTS"
+									},
+									Text = request.Message.Text
+								}
 							}
 						}
 				}
