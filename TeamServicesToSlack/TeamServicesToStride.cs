@@ -1,19 +1,16 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host;
 using Newtonsoft.Json;
 using TeamServicesToSlack.Models;
-using TeamServicesToSlack.Models.VisualStudioServices;
 using TeamServicesToSlack.Services;
 using TeamServicesToStride.Models;
 
@@ -59,6 +56,8 @@ namespace TeamServicesToSlack
 			//var timeLineData = JsonConvert.DeserializeObject<Timeline>(timeline);
 			//var failingTask = timeLineData.Records.FirstOrDefault(x => x.Result == "failed");
 
+			var buildSucceeded = request.Resource.Status.ToLowerInvariant() == "succeeded";
+
 			var strideService = new StrideService(log, KeyManager.GetSecret("StrideWebhookUrl"));
 			var model = new StrideMessageModel
 			{
@@ -70,27 +69,30 @@ namespace TeamServicesToSlack
 							Type = "applicationCard",
 							Attrs = new Attrs
 							{
-								Actions = new[]
-								{
-									new Models.Action
-									{
-										Key = "unique-app-card-action-key",
-										Target = new Target
-										{
-											Key = "app-dialog"
-										},
-										Title = "Show VSTS"
-									}
-								},
+								//Actions = new[]
+								//{
+								//	new Models.Action
+								//	{
+								//		Key = "unique-app-card-action-key",
+								//		Target = new Target
+								//		{
+								//			Key = "app-dialog"
+								//		},
+								//		Title = "Show VSTS"
+								//	}
+								//},
 								Text = request.DetailedMessage.Text,
-								Link = new Models.Link
+								Link = new Link
 								{
 									Url = request.Resource.Url
 								},
 								Collapsible = true,
 								Title = new Title
 								{
-									Text = "Someone broke the build!",
+									// TODO lastchangedby, is that who triggered? Or who last changed the definition?
+									Text = buildSucceeded
+										? $"{request.Resource.LastChangedBy.DisplayName} successfully triggered a build, hooray!"
+										: $"{request.Resource.LastChangedBy.DisplayName} broke the build!",
 									User = new User
 									{
 										Icon = new Icon
@@ -104,15 +106,16 @@ namespace TeamServicesToSlack
 								{
 									Text = request.DetailedMessage.Text
 								},
-								Preview = new Models.Link
+								Preview = new Link
 								{
-									Url = "https://vignette.wikia.nocookie.net/cardfight/images/2/2c/Sad_panda.jpg/revision/latest?cb=20140720193511"
+								Url = buildSucceeded ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuOQK9D8SET0D7542ENdA52M-M0hhTFLukcJ_rUQtHEMcqZzBt"
+									: "https://vignette.wikia.nocookie.net/cardfight/images/2/2c/Sad_panda.jpg/revision/latest?cb=20140720193511"
 								},
 								Context = new Context
 								{
 									Icon = new Icon
 									{
-										Url = "https://www.delta-n.nl/actueel/blogs/development-blog/PublishingImages/VSTSlogobijTips.png",
+										Url = "https://a3bf67a2345da5d6ee8b-6d37b1ee447a16ff81e1420be19ec8c3.ssl.cf5.rackcdn.com/vsts/vsts.png",
 										Label = "VSTS"
 									},
 									Text = request.Message.Text
