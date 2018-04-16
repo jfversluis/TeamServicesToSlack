@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using TeamServicesToSlack.Models;
 using TeamServicesToSlack.Models.VisualStudioServices;
 using TeamServicesToSlack.Services;
+using TeamServicesToStride.Models;
 
 namespace TeamServicesToSlack
 {
@@ -27,11 +28,12 @@ namespace TeamServicesToSlack
 			bool simple = !(req.Headers.FirstOrDefault(h => h.Key.ToLowerInvariant() == "format").Value?.ToString().ToLowerInvariant() == "extended");
 
 			string requestBody = new StreamReader(await req.Content.ReadAsStreamAsync()).ReadToEnd();
-			var request = JsonConvert.DeserializeObject<WebhookRequest>(requestBody);
+			//var request = JsonConvert.DeserializeObject<WebhookRequest>(requestBody);
+			var request = JsonConvert.DeserializeObject<VstsMessageModel>(requestBody);
 			//var message = data?.message?.text;
-			var detailedMessage = request.DetailedMessage.text;
+			//var detailedMessage = request.DetailedMessage.text;
 			// important - get this data
-			var resourceLink = request.Resource.url;
+			//var resourceLink = request.Resource.url;
 			//var changesData = await GetVstsResource($"{resourceLink}/changes");
 			//var changes = JsonConvert.DeserializeObject<Changes>(changesData);
 			//var changesCount = changes.count;
@@ -93,8 +95,8 @@ namespace TeamServicesToSlack
 									{
 										Icon = new Icon
 										{
-											Url = "https://www.gravatar.com/avatar/c3c9338e575a73892b0f1257eb9ee997",
-											Label = "Someone"
+											Url = request.Resource.LastChangedBy.ImageUrl,
+											Label = request.Resource.LastChangedBy.DisplayName
 										}
 									}
 								},
