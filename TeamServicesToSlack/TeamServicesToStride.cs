@@ -62,7 +62,7 @@ namespace TeamServicesToSlack
 				: request.Resource.Requests.FirstOrDefault()?.RequestedFor?.DisplayName;
 
 			var triggeredByUserImage = request.Resource.Requests.FirstOrDefault() == null ? ""
-				: request.Resource.Requests.FirstOrDefault()?.RequestedFor?.ImageUrl;
+			                                  : $"https://dotcontrol.visualstudio.com/_api/_common/identityImage?id={request.Resource.Requests.FirstOrDefault()?.RequestedFor.Id}";
 
 			var strideService = new StrideService(log, KeyManager.GetSecret("StrideWebhookUrl"));
 			var model = new StrideMessageModel
