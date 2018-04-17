@@ -89,16 +89,15 @@ namespace TeamServicesToSlack
 								Collapsible = true,
 								Title = new Title
 								{
-									// TODO lastchangedby, is that who triggered? Or who last changed the definition?
 									Text = buildSucceeded
-										? $"{request.Resource.LastChangedBy.DisplayName} successfully triggered a build, hooray!"
-										: $"{request.Resource.LastChangedBy.DisplayName} broke the build!",
+										? $"{request.Resource.Requests.FirstOrDefault()?.RequestedFor.DisplayName} successfully triggered a build, hooray!"
+										: $"{request.Resource.Requests.FirstOrDefault()?.RequestedFor.DisplayName} broke the build!",
 									User = new User
 									{
 										Icon = new Icon
 										{
-											Url = request.Resource.LastChangedBy.ImageUrl,
-											Label = request.Resource.LastChangedBy.DisplayName
+											Url = request.Resource.Requests.FirstOrDefault()?.RequestedFor.ImageUrl,
+											Label = request.Resource.Requests.FirstOrDefault()?.RequestedFor.DisplayName
 										}
 									}
 								},
