@@ -42,8 +42,8 @@ namespace TeamServicesToSlack
 		{
 			log.Info("C# HTTP trigger function processed a request.");
 
-			string channelUrl = req.Headers?.FirstOrDefault(h => h.Key.ToLowerInvariant() == "channelurl").Value?.ToString();
-			string channelKey = req.Headers?.FirstOrDefault(h => h.Key.ToLowerInvariant() == "channelkey").Value?.ToString();
+			string channelUrl = req.Headers?.FirstOrDefault(h => h.Key.ToLowerInvariant() == "channelurl").Value?.FirstOrDefault();
+			string channelKey = req.Headers?.FirstOrDefault(h => h.Key.ToLowerInvariant() == "channelkey").Value?.FirstOrDefault();
 
 			if (string.IsNullOrWhiteSpace(channelUrl) || string.IsNullOrWhiteSpace(channelKey))
 			{
