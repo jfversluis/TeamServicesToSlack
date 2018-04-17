@@ -41,7 +41,18 @@ namespace TeamServicesToSlack
 		public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)]HttpRequestMessage req, TraceWriter log)
 		{
 			log.Info("C# HTTP trigger function processed a request.");
-			bool simple = !(req.Headers.FirstOrDefault(h => h.Key.ToLowerInvariant() == "format").Value?.ToString().ToLowerInvariant() == "extended");
+
+			string channelUrl = req.Headers?.FirstOrDefault(h => h.Key.ToLowerInvariant() == "channelurl").Value?.ToString();
+			string channelKey = req.Headers?.FirstOrDefault(h => h.Key.ToLowerInvariant() == "channelkey").Value?.ToString();
+
+			if (string.IsNullOrWhiteSpace(channelUrl) || string.IsNullOrWhiteSpace(channelKey))
+			{
+				channelUrl = KeyManager.GetSecret("StrideWebhookUrl");
+				channelKey = KeyManager.GetSecret("StrideAuthToken");
+
+				if (string.IsNullOrWhiteSpace(channelUrl) || string.IsNullOrWhiteSpace(channelKey))
+					return new BadRequestResult();
+			}
 
 			string requestBody = new StreamReader(await req.Content.ReadAsStreamAsync()).ReadToEnd();
 			var request = JsonConvert.DeserializeObject<VstsMessageModel>(requestBody);
@@ -58,7 +69,7 @@ namespace TeamServicesToSlack
 
 			var buildDuration = Math.Round(request.Resource.FinishTime.Subtract(request.Resource.StartTime).TotalMinutes, 1);
 
-			var strideService = new StrideService(log, KeyManager.GetSecret("StrideWebhookUrl"));
+			var strideService = new StrideService(log, channelUrl, channelKey);
 			var model = new StrideMessageModel
 			{
 				Version = 1,
