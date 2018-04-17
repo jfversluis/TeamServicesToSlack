@@ -94,7 +94,7 @@ namespace TeamServicesToSlack
 								Text = request.DetailedMessage.Text,
 								Link = new Link
 								{
-									Url = $"https://dotcontrol.visualstudio.com/HaviConnect%20Native%20App/_build/index?buildId={request.Resource.Requests.FirstOrDefault()?.Id}&_a=summary"
+									Url = $"https://dotcontrol.visualstudio.com/{request.ResourceContainers.Project.Id}/_build/index?buildId={request.Resource.Requests.FirstOrDefault()?.Id}&_a=summary"
 								},
 								Collapsible = true,
 								Title = new Title

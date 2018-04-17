@@ -36,7 +36,7 @@ namespace TeamServicesToSlack.Services
 			{
 				var payloadJson = JsonConvert.SerializeObject(payload);
 				_log.Info($"Payload JSON {payloadJson}");
-				_log.Info($"Slack Webhook URL {strideWebhook}");
+				_log.Info($"Stride Webhook URL {strideWebhook}");
 
 				using (var client = new HttpClient())
 				{
