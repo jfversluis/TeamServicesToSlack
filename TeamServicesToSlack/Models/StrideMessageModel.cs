@@ -48,6 +48,9 @@ namespace TeamServicesToSlack.Models
 
 		[JsonProperty("preview")]
 		public Link Preview { get; set; }
+
+		[JsonProperty("details")]
+		public Detail[] Details { get; set; }
 	}
 
 	public class Action
@@ -111,5 +114,47 @@ namespace TeamServicesToSlack.Models
 	{
 		[JsonProperty("icon")]
 		public Icon Icon { get; set; }
+	}
+
+	public class Detail
+	{
+		[JsonProperty("icon", NullValueHandling = NullValueHandling.Ignore)]
+		public Icon Icon { get; set; }
+
+		[JsonProperty("text", NullValueHandling = NullValueHandling.Ignore)]
+		public string Text { get; set; }
+
+		[JsonProperty("badge", NullValueHandling = NullValueHandling.Ignore)]
+		public Badge Badge { get; set; }
+
+		[JsonProperty("lozenge", NullValueHandling = NullValueHandling.Ignore)]
+		public Lozenge Lozenge { get; set; }
+
+		[JsonProperty("title", NullValueHandling = NullValueHandling.Ignore)]
+		public string Title { get; set; }
+
+		[JsonProperty("users", NullValueHandling = NullValueHandling.Ignore)]
+		public User[] Users { get; set; }
+	}
+
+	public class Badge
+	{
+		[JsonProperty("value")]
+		public long Value { get; set; }
+
+		[JsonProperty("max")]
+		public long Max { get; set; }
+
+		[JsonProperty("appearance")]
+		public string Appearance { get; set; }
+	}
+
+	public class Lozenge
+	{
+		[JsonProperty("text")]
+		public string Text { get; set; }
+
+		[JsonProperty("appearance")]
+		public string Appearance { get; set; }
 	}
 }
