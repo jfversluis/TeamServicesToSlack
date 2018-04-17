@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Text;
 using Microsoft.Azure.WebJobs.Host;
 using Newtonsoft.Json;
@@ -28,17 +29,24 @@ namespace TeamServicesToSlack.Services
 
 		public async void PostToStride(string strideWebhook, StrideMessageModel payload)
 		{
-			var payloadJson = JsonConvert.SerializeObject(payload);
-			_log.Info($"Payload JSON {payloadJson}");
-			_log.Info($"Slack Webhook URL {strideWebhook}");
-
-			using (var client = new HttpClient())
+			try
 			{
-				client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", KeyManager.GetSecret("StrideAuthToken"));
+				var payloadJson = JsonConvert.SerializeObject(payload);
+				_log.Info($"Payload JSON {payloadJson}");
+				_log.Info($"Slack Webhook URL {strideWebhook}");
 
-				var content = new StringContent(payloadJson, Encoding.UTF8, "application/json");
-				var response = await client.PostAsync(strideWebhook, content);
-				response.EnsureSuccessStatusCode();
+				using (var client = new HttpClient())
+				{
+					client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", KeyManager.GetSecret("StrideAuthToken"));
+
+					var content = new StringContent(payloadJson, Encoding.UTF8, "application/json");
+					var response = await client.PostAsync(strideWebhook, content);
+					response.EnsureSuccessStatusCode();
+				}
+			}
+			catch (Exception ex)
+			{
+				_log.Error(ex.Message, ex);
 			}
 		}
 	}

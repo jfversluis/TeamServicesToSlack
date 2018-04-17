@@ -58,6 +58,12 @@ namespace TeamServicesToSlack
 
 			var buildSucceeded = request.Resource.Status.ToLowerInvariant() == "succeeded";
 
+			var triggeredByUser = request.Resource.Requests.FirstOrDefault() == null ? "Someone"
+				: request.Resource.Requests.FirstOrDefault()?.RequestedFor?.DisplayName;
+
+			var triggeredByUserImage = request.Resource.Requests.FirstOrDefault() == null ? ""
+				: request.Resource.Requests.FirstOrDefault()?.RequestedFor?.ImageUrl;
+
 			var strideService = new StrideService(log, KeyManager.GetSecret("StrideWebhookUrl"));
 			var model = new StrideMessageModel
 			{
@@ -90,14 +96,14 @@ namespace TeamServicesToSlack
 								Title = new Title
 								{
 									Text = buildSucceeded
-										? $"{request.Resource.Requests.FirstOrDefault()?.RequestedFor.DisplayName} successfully triggered a build, hooray!"
-										: $"{request.Resource.Requests.FirstOrDefault()?.RequestedFor.DisplayName} broke the build!",
+										? $"{triggeredByUser} successfully triggered a build, hooray!"
+										: $"{triggeredByUser} broke the build!",
 									User = new User
 									{
 										Icon = new Icon
 										{
-											Url = request.Resource.Requests.FirstOrDefault()?.RequestedFor.ImageUrl,
-											Label = request.Resource.Requests.FirstOrDefault()?.RequestedFor.DisplayName
+											Url = triggeredByUserImage,
+											Label = triggeredByUser
 										}
 									}
 								},
