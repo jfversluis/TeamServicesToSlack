@@ -55,14 +55,15 @@ namespace TeamServicesToSlack
 			//var timeline = await GetVstsResource(resourceData._Links.Timeline.Href);
 			//var timeLineData = JsonConvert.DeserializeObject<Timeline>(timeline);
 			//var failingTask = timeLineData.Records.FirstOrDefault(x => x.Result == "failed");
-
+			if (request.EventType.ToLowerInvariant() != "build.complete")
+				return new OkObjectResult("");
+			
 			var buildSucceeded = request.Resource.Status.ToLowerInvariant() == "succeeded";
 
 			var triggeredByUser = request.Resource.Requests.FirstOrDefault() == null ? "Someone"
 				: request.Resource.Requests.FirstOrDefault()?.RequestedFor?.DisplayName;
 
-			var triggeredByUserImage = request.Resource.Requests.FirstOrDefault() == null ? ""
-			                                  : $"https://dotcontrol.visualstudio.com/_api/_common/identityImage?id={request.Resource.Requests.FirstOrDefault()?.RequestedFor.Id}";
+			var triggeredByUserImage = "https://avatarfiles.alphacoders.com/643/thumb-64385.png";
 
 			var strideService = new StrideService(log, KeyManager.GetSecret("StrideWebhookUrl"));
 			var model = new StrideMessageModel
